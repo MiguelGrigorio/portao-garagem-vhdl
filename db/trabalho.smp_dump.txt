@@ -1,0 +1,11 @@
+
+State Machine - |trabalho|motor:motor|state
+Name state.OrangeBlue state.Orange state.YellowOrange state.Yellow state.PinkYellow state.Pink state.BluePink state.Blue 
+state.Blue 0 0 0 0 0 0 0 0 
+state.BluePink 0 0 0 0 0 0 1 1 
+state.Pink 0 0 0 0 0 1 0 1 
+state.PinkYellow 0 0 0 0 1 0 0 1 
+state.Yellow 0 0 0 1 0 0 0 1 
+state.YellowOrange 0 0 1 0 0 0 0 1 
+state.Orange 0 1 0 0 0 0 0 1 
+state.OrangeBlue 1 0 0 0 0 0 0 1 
