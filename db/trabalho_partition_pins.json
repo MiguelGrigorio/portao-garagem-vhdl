@@ -1,0 +1,49 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "wires[0]",
+					"strict" : false
+				},
+				{
+					"name" : "wires[1]",
+					"strict" : false
+				},
+				{
+					"name" : "wires[2]",
+					"strict" : false
+				},
+				{
+					"name" : "wires[3]",
+					"strict" : false
+				},
+				{
+					"name" : "LR",
+					"strict" : false
+				},
+				{
+					"name" : "LG",
+					"strict" : false
+				},
+				{
+					"name" : "sensorP",
+					"strict" : false
+				},
+				{
+					"name" : "clock",
+					"strict" : false
+				},
+				{
+					"name" : "reset",
+					"strict" : false
+				},
+				{
+					"name" : "botaoB",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
