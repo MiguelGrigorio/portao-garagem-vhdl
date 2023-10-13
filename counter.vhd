@@ -3,24 +3,24 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity counter is
-	Port (
-		clock		:	in std_logic;
-		reset		: 	in std_logic;
-		trigger		: 	in std_logic;
-		period		: 	in integer;
-		BCD			: 	out std_logic_vector(3 downto 0);
-		overflow	: 	out std_logic
+	port (
+		clock    : in std_logic;
+		reset    : in std_logic;
+		trigger  : in std_logic;
+		period   : in integer;
+		BCD      : out std_logic_vector(3 downto 0);
+		overflow : out std_logic
 	);
 end counter;
 
 architecture behavioral of counter is
 
-	signal count, NextCount 	:	integer;
+	signal count, NextCount : integer;
 
 begin
 
-	NextCount	<=	0 when count = period else
-					count + 1;
+	NextCount <= 0 when count = period else
+		count + 1;
 
 	process (clock, reset)
 	begin
@@ -33,9 +33,9 @@ begin
 		end if;
 	end process;
 
-	overflow 	<= 	'1' when count = period and trigger = '1' else
-					'0' ;
-	
-	BCD	<=	std_logic_vector(to_unsigned(count, 4));
+	overflow <= '1' when count = period and trigger = '1' else
+		'0';
+
+	BCD <= std_logic_vector(to_unsigned(count, 4));
 
 end behavioral;

@@ -3,9 +3,9 @@ use ieee.std_logic_1164.all;
 
 entity timer is
 	port (
-		clock : in std_logic;
-		reset : in std_logic;
-		period : in integer;
+		clock    : in std_logic;
+		reset    : in std_logic;
+		period   : in integer;
 		overflow : out std_logic
 	);
 end timer;
