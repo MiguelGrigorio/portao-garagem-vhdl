@@ -16,8 +16,12 @@ end trabalho;
 
 architecture behavioral of trabalho is
 
-	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, ovf_debounce  : std_logic;
-	signal next_state, state, step :   integer;
+	type state_t is (Fechado, Abrindo, Aberto, TimerCinco, Fechando);
+	signal next_state, state	: state_t;
+
+	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, ovf_debounce, LG, LR  : std_logic;
+
+	signal step :	integer;
 
 begin
 
@@ -25,7 +29,7 @@ begin
 	process(clock, reset)
 	begin
 		if reset = '1' then
-            state <= 0;
+            state <= Fechado;
 		elsif rising_edge(clock) then
 			state <= next_state;
 		end if;
@@ -33,16 +37,24 @@ begin
 	---------------------
 
 	-- Controle dos LEDs
-	process (clock, LedG, LedR)
+	process (clock)
 	begin
 		if rising_edge(clock) then
-			if state = 0 then
-				LedG <= '0';
-	        	LedR <= '0';
-			else
-				LedG <= blink;
-				LedR <= not blink;
+			if state = Fechado then
+				LG <= '0';
+	        	LR <= '0';
+			elsif blink = '1' then
+				if LR = '0' then
+					LG <= '0';
+					LR <= '1';
+				else
+					LG <= '1';
+					LR <= '0';
+				end if;
           	end if;
+			
+			LedG <= LG;
+			LedR <= LR;
 		end if;
 	end process;
 	---------------------------
@@ -51,41 +63,48 @@ begin
 	process(sensorP, step, state, botao, cinco)
 	begin
 		case state is
-			when 0 =>         					-- Fechado
-				next_state <= 0;
+			when Fechado =>         					
+				next_state <= Fechado;
 
-				if botao = '1' then				-- 0 - pressionado (só vai funcionar quando pressionar o botão)
-					next_state <= 1;
+				if botao = '1' then
+					next_state <= Abrindo;
 				end if;
 
-			when 1 =>							-- Abrindo
-				next_state <= 1;
+			when Abrindo =>							
+				next_state <= Abrindo;
 	
 				if botao = '1' and sensorP = '0' then
-					next_state <= 3;
+					next_state <= Fechando;
 				else
-					if step = 1024 then
-            	  	next_state <= 2;
+					if step = 1024 then	-- 90 graus
+            	  	next_state <= Aberto;
 					end if;
 				end if;
 					
-			when 2 =>							-- Aberto
-				next_state <= 2;
+			when Aberto =>
+				next_state <= Aberto;
 					
 				if sensorP = '0' then
-					if botao = '1' or cinco = '1' then
-						next_state <= 3;
-					end if;
+					next_state <= TimerCinco;
 				end if;
 				
-			when others =>							-- Fechando
-				next_state <= 3;
+			when TimerCinco =>
+				next_state <= TimerCinco;
+
+				if sensorP = '1' then
+					next_state <= Aberto;
+				elsif botao = '1' or cinco = '1' then
+					next_state <= Fechando;
+				end if;
+
+			when others =>	-- Fechando
+				next_state <= Fechando;
 					
 				if botao = '1' or sensorP = '1' then
-           			next_state <= 1;
+           			next_state <= Abrindo;
 				else
-					if step = 0 then
-              			next_state <= 0;
+					if step = 0 then -- 90 graus
+              			next_state <= Fechado;
            			end if;
 				end if;
 
@@ -94,55 +113,44 @@ begin
 	-------------------------------------------
 	
 	-- Saídas de cada estado
-	process(sensorP, step, state, botao, cinco)
+	process(state)
 	begin
 		case state is
 
-			when 0 =>         					-- Fechado
+			when Fechado  =>
+
 				reset_blink <= '1';
 				reset_cinco <= '1';
 				enable <= '0';
 				direction <= '0';
 
-			when 1 =>							-- Abrindo
+			when Abrindo  =>
+
+				reset_blink <= '0';
+				reset_cinco <= '1';
+				enable <= '1';
+				direction <= '0';
+					
+			when Aberto =>
+
 				reset_blink <= '0';
 				reset_cinco <= '1';
 				enable <= '0';
 				direction <= '0';
 				
-				if botao = '0' then
-					if step < 1024 then
-						direction <= '0';
-						enable <= '1';
-					end if;
-				end if;
-					
-			when 2 =>							-- Aberto
+			when TimerCinco =>
+
 				reset_blink <= '0';
 				reset_cinco <= '0';
 				enable <= '0';
 				direction <= '0';
-				
-				if sensorP = '1' then
-					reset_cinco <= '1';
-	           	else
-					reset_cinco <= '0';
-				end if;
-				
-			when others =>						-- Fechando
+
+			when others =>	-- Fechando
+
 				reset_blink <= '0';
 				reset_cinco <= '1';
-				enable <= '0';
-				direction <= '0';
-					
-				if botao = '0' or sensorP = '0' then
-					if step > 0 then
-						enable <= '1';
-               			direction <= '1';
-         			else    					-- Fechou
-              			enable <= '0';
-           			end if;
-				end if;
+				enable <= '1';
+				direction <= '1';
 			
 		end case;
 	end process;

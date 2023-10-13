@@ -13,13 +13,13 @@ end timer;
 architecture behavioral of timer is
 	signal count, NextCount :   integer;
 begin
-	NextCount	<=	0 when count = period else
+	NextCount	<=	1 when count = period else
 					count + 1;
 					
 	process (clock, reset)
 	begin
 		if reset = '1' then
-			count <= 0;
+			count <= 1;
 		elsif rising_edge(clock) then
 			count <= NextCount;
 		end if;
