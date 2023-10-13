@@ -19,9 +19,7 @@ architecture behavioral of trabalho is
 	type state_t is (Fechado, Abrindo, Aberto, TimerCinco, Fechando);
 	signal next_state, state : state_t;
 
-	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, ovf_debounce, LG, LR : std_logic;
-
-	signal step : integer;
+	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, ovf_debounce, LG, LR, step_complete : std_logic;
 
 begin
 
@@ -60,7 +58,7 @@ begin
 	---------------------------
 
 	-- Lógica para mudanca de estados
-	process (sensorP, step, state, botao, cinco)
+	process (sensorP, step_complete, state, botao, cinco)
 	begin
 		case state is
 			when Fechado =>
@@ -76,7 +74,7 @@ begin
 				if botao = '1' and sensorP = '0' then
 					next_state <= Fechando;
 				else
-					if step = 1024 then -- 90 graus
+					if step_complete = '1' then
 						next_state <= Aberto;
 					end if;
 				end if;
@@ -103,7 +101,7 @@ begin
 				if botao = '1' or sensorP = '1' then
 					next_state <= Abrindo;
 				else
-					if step = 0 then -- 90 graus
+					if step_complete = '1' then
 						next_state <= Fechado;
 					end if;
 				end if;
@@ -164,7 +162,7 @@ begin
 		enable    => enable,
 		wires     => wires,
 		angulo    => 1024,
-		step      => step
+		overflow  => step_complete
 		);
 	-----------------------------------
 

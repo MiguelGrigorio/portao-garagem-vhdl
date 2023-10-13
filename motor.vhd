@@ -10,7 +10,7 @@ entity motor is
 		enable    : in std_logic;                     -- 	Pode realizar o movimento ou não
 		angulo    : in integer;                       --	Angulo que vai girar
 		wires     : out std_logic_vector(3 downto 0); -- 	Bobinas motor
-		step      : out integer
+		overflow  : out std_logic
 	);
 end motor;
 
@@ -18,7 +18,7 @@ architecture behavioral of motor is
 
 	type state_t is (Blue, BluePink, Pink, PinkYellow, Yellow, YellowOrange, Orange, OrangeBlue); -- Define nomes dos estados
 	signal state, next_state : state_t;
-	signal overflow          : std_logic;
+	signal ovf               : std_logic;
 	signal steps             : integer;
 
 begin
@@ -54,20 +54,24 @@ begin
 	process (clock, reset)
 	begin
 		if reset = '1' then
-			state <= Blue;
-			steps <= 0;
+			state    <= Blue;
+			steps    <= 0;
+			overflow <= '0';
 		elsif rising_edge(clock) then
-			step <= steps;
-			if overflow = '1' and enable = '1' then
-				state <= next_state;
-
+			if ovf = '1' and enable = '1' then
+				state    <= next_state;
+				overflow <= '0';
 				if direction = '0' then
 					if steps < angulo then
 						steps <= steps + 1;
+					else
+						overflow <= '1';
 					end if;
 				else
 					if steps > 0 then
 						steps <= steps - 1;
+					else
+						overflow <= '1';
 					end if;
 				end if;
 			end if;
@@ -89,7 +93,7 @@ begin
 		clock    => clock,
 		reset    => reset,
 		period   => 185_185,
-		overflow => overflow
+		overflow => ovf
 		);
 
 end behavioral;
