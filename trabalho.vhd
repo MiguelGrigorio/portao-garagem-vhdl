@@ -6,8 +6,8 @@ entity trabalho is
 	port (
 		clock   : in std_logic;                      -- 	Tic Tac
 		reset   : in std_logic;                      -- 	Chave para reiniciar
-		sensorP : in std_logic;                      --	Chave sensor de presenca
-		botaoB  : in std_logic;                      --	Botao para abrir e fechar o portao
+		sensorP : in std_logic;                      --		Chave sensor de presenca
+		botaoB  : in std_logic;                      --		Botao para abrir e fechar o portao
 		wires   : out std_logic_vector (3 downto 0); -- 	Bobinas motor
 		LedR    : out std_logic;                     -- 	Led vermelho
 		LedG    : out std_logic                      -- 	Led verde
