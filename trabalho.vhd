@@ -155,7 +155,7 @@ begin
 	-------------------------------------------
 
 	-- Controle do motor
-	motor : entity work.motor port map (
+	Motor : entity work.motor port map (
 		clock     => clock,
 		reset     => reset,
 		direction => direction,
@@ -167,7 +167,7 @@ begin
 	-----------------------------------
 
 	-- Temporizador de 5 segundos
-	timer : entity work.timer port map (
+	Timer : entity work.timer port map (
 		clock    => clock,
 		reset    => reset_cinco,
 		period   => 249_999_999, -- 5 segundos
@@ -176,7 +176,7 @@ begin
 	-----------------------------------
 
 	-- Piscar a cada 0.5 segundos
-	piscar : entity work.timer port map (
+	Piscar : entity work.timer port map (
 		clock    => clock,
 		reset    => reset_blink,
 		period   => 24_999_999, -- 0.5 segundos
@@ -185,18 +185,11 @@ begin
 	------------------------------------
 
 	-- Debounce para verificar botao
-	timer_debounce : entity work.timer port map (
-		clock    => clock,
-		reset    => reset,
-		period   => 1_000,
-		overflow => ovf_debounce
-		);
-	debounce : entity work.debounce port map (
-		clock   => clock,
-		reset   => reset,
-		switch  => botaoB,
-		fall    => botao,
-		trigger => ovf_debounce
+	Debounce : entity work.debounce port map (
+		clock  => clock,
+		reset  => reset,
+		switch => botaoB,
+		fall   => botao
 		);
 	--------------------------------------------
 
