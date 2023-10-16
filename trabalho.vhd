@@ -19,7 +19,7 @@ architecture behavioral of trabalho is
 	type state_t is (Fechado, Abrindo, Aberto, TimerCinco, Fechando);
 	signal next_state, state : state_t;
 
-	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, ovf_debounce, LG, LR, step_complete : std_logic;
+	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, LG, LR, step_complete : std_logic;
 
 begin
 
@@ -35,27 +35,13 @@ begin
 	---------------------
 
 	-- Controle dos LEDs
-	process (clock)
-	begin
-		if rising_edge(clock) then
-			if state = Fechado then
-				LG <= '0';
-				LR <= '0';
-			elsif blink = '1' then
-				if LR = '0' then
-					LG <= '0';
-					LR <= '1';
-				else
-					LG <= '1';
-					LR <= '0';
-				end if;
-			end if;
-
-			LedG <= LG;
-			LedR <= LR;
-		end if;
-	end process;
-	---------------------------
+	LR <= '0' when state = Fechado or (blink = '1' and LR = '1') else
+		'1';
+	LedR <= LR;
+	LG   <= '0' when state = Fechado or (blink = '1' and LR = '0') else
+		'1';
+	LedG <= LG;
+	---------------------------------------------------------------
 
 	-- Lógica para mudanca de estados
 	process (sensorP, step_complete, state, botao, cinco)
