@@ -32,16 +32,14 @@ begin
 			state <= next_state;
 		end if;
 	end process;
-	---------------------
+	----------------------
 
 	-- Controle dos LEDs
-	LR <= '0' when state = Fechado or (blink = '1' and LR = '1') else
-		'1';
+	LR   <= '0' when state = Fechado or (blink = '1' and LR = '1') else '1';
 	LedR <= LR;
-	LG   <= '0' when state = Fechado or (blink = '1' and LR = '0') else
-		'1';
+	LG   <= '0' when state = Fechado or (blink = '1' and LR = '0') else '1';
 	LedG <= LG;
-	---------------------------------------------------------------
+	------------------------------------------------------------------------
 
 	-- Lógica para mudanca de estados
 	process (sensorP, step_complete, state, botao, cinco)
