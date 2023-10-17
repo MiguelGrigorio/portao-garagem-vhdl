@@ -35,10 +35,26 @@ begin
 	----------------------
 
 	-- Controle dos LEDs
-	LR   <= '0' when state = Fechado or (blink = '1' and LR = '1') else '1';
-	LedR <= LR;
-	LG   <= '0' when state = Fechado or (blink = '1' and LR = '0') else '1';
-	LedG <= LG;
+	process (clock)
+	begin
+		if rising_edge(clock) then
+			if state = Fechado then
+				LG <= '0';
+				LR <= '0';
+			elsif blink = '1' then
+				if LR = '0' then
+					LG <= '0';
+					LR <= '1';
+				else
+					LG <= '1';
+					LR <= '0';
+				end if;
+			end if;
+
+			LedG <= LG;
+			LedR <= LR;
+		end if;
+	end process;
 	------------------------------------------------------------------------
 
 	-- Lógica para mudanca de estados
@@ -57,10 +73,9 @@ begin
 
 				if botao = '1' and sensorP = '0' then
 					next_state <= Fechando;
-				else
-					if step_complete = '1' then
-						next_state <= Aberto;
-					end if;
+				end if;
+				if step_complete = '1' then
+					next_state <= Aberto;
 				end if;
 
 			when Aberto =>
@@ -75,7 +90,8 @@ begin
 
 				if sensorP = '1' then
 					next_state <= Aberto;
-				elsif botao = '1' or cinco = '1' then
+				end if;
+				if botao = '1' or cinco = '1' then
 					next_state <= Fechando;
 				end if;
 
@@ -84,10 +100,9 @@ begin
 
 				if botao = '1' or sensorP = '1' then
 					next_state <= Abrindo;
-				else
-					if step_complete = '1' then
-						next_state <= Fechado;
-					end if;
+				end if;
+				if step_complete = '1' then
+					next_state <= Fechado;
 				end if;
 
 		end case;
