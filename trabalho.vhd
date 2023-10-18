@@ -19,8 +19,8 @@ architecture behavioral of trabalho is
 	type state_t is (Fechado, Abrindo, Aberto, TimerCinco, Fechando);
 	signal next_state, state : state_t;
 
-	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, LG, LR	: std_logic;
-	signal steps	:	integer;
+	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, LG, LR : std_logic;
+	signal steps                                                                    : integer;
 
 begin
 
@@ -74,8 +74,7 @@ begin
 
 				if botao = '1' and sensorP = '0' then
 					next_state <= Fechando;
-				end if;
-				if steps = 1024 then
+				elsif steps = 1024 then
 					next_state <= Aberto;
 				end if;
 
@@ -91,8 +90,7 @@ begin
 
 				if sensorP = '1' then
 					next_state <= Aberto;
-				end if;
-				if botao = '1' or cinco = '1' then
+				elsif botao = '1' or cinco = '1' then
 					next_state <= Fechando;
 				end if;
 
@@ -101,8 +99,7 @@ begin
 
 				if botao = '1' or sensorP = '1' then
 					next_state <= Abrindo;
-				end if;
-				if steps = 0 then
+				elsif steps = 0 then
 					next_state <= Fechado;
 				end if;
 
@@ -111,11 +108,11 @@ begin
 	-------------------------------------------
 
 	-- Saídas de cada estado
-    reset_blink <= '1' when state = Fechado else '0';
-    reset_cinco <= '0' when state = TimerCinco else '1';
-    enable      <= '1' when state = Abrindo or state = Fechando else '0';
-    direction   <= '1' when state = Fechando else '0';
-    -------------------------------------------
+	reset_blink <= '1' when state = Fechado else '0';
+	reset_cinco <= '0' when state = TimerCinco else '1';
+	enable      <= '1' when state = Abrindo or state = Fechando else '0';
+	direction   <= '1' when state = Fechando else '0';
+	-------------------------------------------
 
 	-- Controle do motor
 	Motor : entity work.motor port map (
@@ -125,7 +122,7 @@ begin
 		enable    => enable,
 		wires     => wires,
 		angulo    => 1024,
-		step  	  => steps
+		step      => steps
 		);
 	-----------------------------------
 
