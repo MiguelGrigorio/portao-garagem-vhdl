@@ -39,7 +39,7 @@ begin
 	process (clock)
 	begin
 		if rising_edge(clock) then
-			if state = Fechado then
+			if reset_blink = '1' then
 				LG <= '0';
 				LR <= '0';
 			elsif blink = '1' then
