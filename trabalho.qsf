@@ -36,100 +36,25 @@
 # -------------------------------------------------------------------------- #
 # Buttons:
 set_location_assignment PIN_P11 -to botaoB
-#set_location_assignment PIN_P12 -to buttons[1]
-#set_location_assignment PIN_Y15 -to buttons[2]
-#set_location_assignment PIN_Y16 -to buttons[3]
+set_location_assignment PIN_P12 -to reset
 
 # Switches:
-set_location_assignment PIN_AC9 -to reset
-set_location_assignment PIN_AE10 -to sensorP
-#set_location_assignment PIN_AD13 -to switches[2]
-#set_location_assignment PIN_AC8 -to switches[3]
-#set_location_assignment PIN_W11 -to switches[4]
-#set_location_assignment PIN_AB10 -to switches[5]
-#set_location_assignment PIN_V10 -to switches[6]
-#set_location_assignment PIN_AC10 -to switches[7]
-#set_location_assignment PIN_Y11 -to switches[8]
-#set_location_assignment PIN_AE19 -to switches[9]
+set_location_assignment PIN_AC9 -to sensorP
 
 # LEDs red:
 set_location_assignment PIN_F7 -to LedR
-#set_location_assignment PIN_F6 -to LEDRs[1]
-#set_location_assignment PIN_G6 -to LEDRs[2]
-#set_location_assignment PIN_G7 -to LEDRs[3]
-#set_location_assignment PIN_J8 -to LEDRs[4]
-#set_location_assignment PIN_J7 -to LEDRs[5]
-#set_location_assignment PIN_K10 -to LEDRs[6]
-#set_location_assignment PIN_K8 -to LEDRs[7]
-#set_location_assignment PIN_H7 -to LEDRs[8]
-#set_location_assignment PIN_J10 -to LEDRs[9]
 
 # LEDs green:
 set_location_assignment PIN_L7 -to LedG
-#set_location_assignment PIN_K6 -to LEDGs[1]
-#set_location_assignment PIN_D8 -to LEDGs[2]
-#set_location_assignment PIN_E9 -to LEDGs[3]
-#set_location_assignment PIN_A5 -to LEDGs[4]
-#set_location_assignment PIN_B6 -to LEDGs[5]
-#set_location_assignment PIN_H8 -to LEDGs[6]
-#set_location_assignment PIN_H9 -to LEDGs[7]
-
-# Display 0:
-#set_location_assignment PIN_V19 -to BCD[0]
-#set_location_assignment PIN_V18 -to BCD[1]
-#set_location_assignment PIN_V17 -to BCD[2]
-#set_location_assignment PIN_W18 -to BCD[3]
-#set_location_assignment PIN_Y20 -to display0[4]
-#set_location_assignment PIN_Y19 -to display0[5]
-#set_location_assignment PIN_Y18 -to display0[6]
-
-# Display 1:
-#set_location_assignment PIN_AA18 -to display1[0]
-#set_location_assignment PIN_AD26 -to display1[1]
-#set_location_assignment PIN_AB19 -to display1[2]
-#set_location_assignment PIN_AE26 -to display1[3]
-#set_location_assignment PIN_AE25 -to display1[4]
-#set_location_assignment PIN_AC19 -to display1[5]
-#set_location_assignment PIN_AF24 -to display1[6]
-
-# Display 2:
-#set_location_assignment PIN_AD7 -to display2[0]
-#set_location_assignment PIN_AD6 -to display2[1]
-#set_location_assignment PIN_U20 -to display2[2]
-#set_location_assignment PIN_V22 -to display2[3]
-#set_location_assignment PIN_V20 -to display2[4]
-#set_location_assignment PIN_W21 -to display2[5]
-#set_location_assignment PIN_W20 -to display2[6]
-
-# Display 3:
-#set_location_assignment PIN_Y24 -to display3[0]
-#set_location_assignment PIN_Y23 -to display3[1]
-#set_location_assignment PIN_AA23 -to display3[2]
-#set_location_assignment PIN_AA22 -to display3[3]
-#set_location_assignment PIN_AC24 -to display3[4]
-#set_location_assignment PIN_AC23 -to display3[5]
-#set_location_assignment PIN_AC22 -to display3[6]
 
 # Clock 50MHz:
 set_location_assignment PIN_R20 -to clock
 
 # GPIOs 3 a 18 (Arduino 3,3V):
 set_location_assignment PIN_E26 -to wires[0]
-#set_location_assignment PIN_K26 -to GPIOs[1]
 set_location_assignment PIN_M26 -to wires[1]
-#set_location_assignment PIN_M21 -to GPIOs[3]
 set_location_assignment PIN_P20 -to wires[2]
-#set_location_assignment PIN_T22 -to GPIOs[5]
 set_location_assignment PIN_T19 -to wires[3]
-#set_location_assignment PIN_U19 -to GPIOs[7]
-#set_location_assignment PIN_U22 -to GPIOs[8]
-#set_location_assignment PIN_P8 -to GPIOs[9]
-#set_location_assignment PIN_R8 -to GPIOs[10]
-#set_location_assignment PIN_R9 -to GPIOs[11]
-#set_location_assignment PIN_R10 -to GPIOs[12]
-#set_location_assignment PIN_F26 -to GPIOs[13]
-#set_location_assignment PIN_Y9 -to GPIOs[14]
-#set_location_assignment PIN_G26 -to GPIOs[15]
 
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CGXFC5C6F27C7
@@ -144,7 +69,6 @@ set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
 set_global_assignment -name VHDL_FILE trabalho.vhd
 set_global_assignment -name VHDL_FILE timer.vhd
 set_global_assignment -name VHDL_FILE motor.vhd
-set_global_assignment -name VHDL_FILE counter.vhd
 set_global_assignment -name VHDL_FILE debounce.vhd
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top

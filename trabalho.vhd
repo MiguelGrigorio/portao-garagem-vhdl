@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity trabalho is
 	port (
 		clock   : in std_logic;                      -- 	Tic Tac
-		reset   : in std_logic;                      -- 	Chave para reiniciar
+		reset   : in std_logic;                      -- 	Botao para reiniciar
 		sensorP : in std_logic;                      --		Chave sensor de presenca
 		botaoB  : in std_logic;                      --		Botao para abrir e fechar o portao
 		wires   : out std_logic_vector (3 downto 0); -- 	Bobinas motor
@@ -27,7 +27,7 @@ begin
 	-- Mudar de estado
 	process (clock, reset)
 	begin
-		if reset = '1' then
+		if reset = '0' then
 			state <= Fechado;
 		elsif rising_edge(clock) then
 			state <= next_state;
