@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity trabalho is
 	port (
 		clock   : in std_logic;                      -- 	Tic Tac
-		reset   : in std_logic;                      -- 	Botao para reiniciar
+		resetB  : in std_logic;                      -- 	Botao para reiniciar
 		sensorP : in std_logic;                      --		Chave sensor de presenca
 		botaoB  : in std_logic;                      --		Botao para abrir e fechar o portao
 		wires   : out std_logic_vector (3 downto 0); -- 	Bobinas motor
@@ -19,15 +19,15 @@ architecture behavioral of trabalho is
 	type state_t is (Fechado, Abrindo, Aberto, TimerCinco, Fechando);
 	signal next_state, state : state_t;
 
-	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, LG, LR : std_logic;
-	signal steps                                                                    : integer;
+	signal cinco, blink, direction, enable, reset_cinco, reset_blink, botao, LG, LR, reset : std_logic;
+	signal steps                                                                           : integer;
 
 begin
 
 	-- Mudar de estado
 	process (clock, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			state <= Fechado;
 		elsif rising_edge(clock) then
 			state <= next_state;
@@ -112,6 +112,7 @@ begin
 	reset_cinco <= '0' when state = TimerCinco else '1';
 	enable      <= '1' when state = Abrindo or state = Fechando else '0';
 	direction   <= '1' when state = Fechando else '0';
+	reset       <= '1' when resetB = '0' else '0';
 	-------------------------------------------
 
 	-- Controle do motor

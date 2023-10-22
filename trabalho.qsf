@@ -36,7 +36,7 @@
 # -------------------------------------------------------------------------- #
 # Buttons:
 set_location_assignment PIN_P11 -to botaoB
-set_location_assignment PIN_P12 -to reset
+set_location_assignment PIN_P12 -to resetB
 
 # Switches:
 set_location_assignment PIN_AC9 -to sensorP
